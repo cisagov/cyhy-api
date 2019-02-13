@@ -20,6 +20,8 @@ setup(
     # long_description=open('README.md').read(),
     install_requires=[
         "Flask == 1.0.2",
+        "Flask-HTTPAuth==3.2.4",
+        "itsdangerous==1.1.0",
         "Flask-RESTful == 0.3.7",
         "Flask-REST-JSONAPI == 0.22.0",
         "docopt == 0.6.2",
