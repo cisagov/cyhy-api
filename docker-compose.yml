@@ -15,3 +15,5 @@ services:
      - ./src/cyhy_rest:/usr/src/cyhy_rest/cyhy_rest
     ports:
       - "4443:5000"
+    secrets:
+      - source: flask_key_yml
