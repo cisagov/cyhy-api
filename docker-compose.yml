@@ -1,0 +1,17 @@
+version: "3.7"
+
+secrets:
+  flask_key_yml:
+    file: ./secrets/flask_key.yml
+
+services:
+  api-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cyhy-rest-server
+    init: true
+    volumes: # map for development only, comment out otherwise
+     - ./src/cyhy_rest:/usr/src/cyhy_rest/cyhy_rest
+    ports:
+      - "4443:5000"
