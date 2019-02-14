@@ -14,6 +14,11 @@ RUN addgroup -S -g ${CISA_UID} cisa \
 RUN apk update
 RUN pip install --upgrade pip
 
+# compile python flask-bcrypt package and cleanup
+RUN apk add gcc musl-dev libffi-dev && \
+    pip install flask-bcrypt && \
+    apk del gcc
+
 RUN if [ -n "${INSTALL_IPYTHON}" ]; then pip install ipython; fi
 
 WORKDIR ${CISA_SRC}
