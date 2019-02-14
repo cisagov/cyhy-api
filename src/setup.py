@@ -12,7 +12,7 @@ setup(
     zip_safe=False,
     entry_points={
         'console_scripts': [
-          'cyhy-rest-server=cyhy_rest.api:main',
+            'cyhy-rest-server=cyhy_rest.api:main',
         ],
     },
     license='LICENSE.txt',
@@ -20,10 +20,12 @@ setup(
     # long_description=open('README.md').read(),
     install_requires=[
         "Flask == 1.0.2",
-        "Flask-HTTPAuth==3.2.4",
-        "itsdangerous==1.1.0",
+        "Flask-HTTPAuth == 3.2.4",
+        "Flask-Bcrypt",  # compiled in Dockerfile
         "Flask-RESTful == 0.3.7",
         "Flask-REST-JSONAPI == 0.22.0",
+        "itsdangerous == 1.1.0",
+        "pymodm == 0.4.1",
         "docopt == 0.6.2",
         "PyYAML == 3.12",
         "python-dateutil == 2.7.5",
