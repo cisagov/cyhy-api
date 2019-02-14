@@ -3,8 +3,9 @@
 from flask import Flask, g, jsonify
 from flask_restful import reqparse, abort, Api, Resource
 from flask_httpauth import HTTPBasicAuth
-from itsdangerous import (TimedJSONWebSignatureSerializer
-                          as Serializer, BadSignature, SignatureExpired)
+
+from .models import User
+from .util import connect_from_config
 
 app = Flask(__name__)
 auth = HTTPBasicAuth()
@@ -24,36 +25,6 @@ TODOS = {
 }
 
 
-class User():
-    """A simple user object."""
-
-    def __init__(self, id):
-        """Create a user object."""
-        self.id = id
-
-    def verify_password(self, password):
-        """Verify the user's password."""
-        return password == 'foo'
-
-    def generate_auth_token(self, expiration=600):
-        """Generate a secure authentication token."""
-        s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
-        return s.dumps({'id': self.id})
-
-    @staticmethod
-    def verify_auth_token(token):
-        """Verify a token is valid, and return the associate username."""
-        s = Serializer(app.config['SECRET_KEY'])
-        try:
-            data = s.loads(token)
-        except SignatureExpired:
-            return None    # valid token, but expired
-        except BadSignature:
-            return None    # invalid token
-        user = User(data['id'])
-        return user
-
-
 @auth.verify_password
 def verify_password(username_or_token, password):
     """Verify a username:password or token."""
@@ -61,8 +32,10 @@ def verify_password(username_or_token, password):
     user = User.verify_auth_token(username_or_token)
     if not user:
         # try to authenticate with username/password
-        user = User(username_or_token)
-        if not user or not user.verify_password(password):
+        query = User.objects.raw({'_id': username_or_token})
+        if query.count() == 1:  # TODO: move this to a custom manager
+            user = query[0]
+        if not user or not user.check_password(password):
             return False
     g.user = user
     return True
@@ -133,6 +106,8 @@ api.add_resource(Token, '/token')
 
 def main():
     """Start the application."""
+    # import IPython; IPython.embed()  # noqa: E702 <<< BREAKPOINT >>>
+    connect_from_config()
     app.run(host='0.0.0.0', debug=True)
 
 
