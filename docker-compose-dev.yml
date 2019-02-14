@@ -1,0 +1,50 @@
+version: "3.7"
+
+secrets:
+  config_yml:
+    file: ./tests/secrets/config.yml
+
+services:
+  api-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cyhy-rest-server
+    init: true
+    volumes: # map for development only, comment out otherwise
+     - ./src/cyhy_rest:/usr/src/cyhy_rest/cyhy_rest
+    ports:
+      - "4443:5000"
+    secrets:
+      - source: config_yml
+
+  # bash:
+  #   <<: *admiral-template
+  #   entrypoint: /bin/sh
+  #   secrets:
+  #     - source: admiral_yml
+  #     - source: mongo_yml
+  #
+  # test:
+  #   <<: *admiral-template
+  #   entrypoint: pytest
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: users
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - ./tests/init/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
