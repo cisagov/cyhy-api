@@ -29,12 +29,10 @@ TODOS = {
 def verify_password(username_or_token, password):
     """Verify a username:password or token."""
     # first try to authenticate by token
-    user = User.verify_auth_token(username_or_token)
+    user = User.objects.verify_auth_token(username_or_token)
     if not user:
         # try to authenticate with username/password
-        query = User.objects.raw({'_id': username_or_token})
-        if query.count() == 1:  # TODO: move this to a custom manager
-            user = query[0]
+        user = User.objects.find_one_user(username_or_token)
         if not user or not user.check_password(password):
             return False
     g.user = user
