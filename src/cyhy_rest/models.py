@@ -52,7 +52,7 @@ class User(MongoModel):
         final = True
 
     def check_password(self, password):
-        """Check if a provided password matches the password in the object."""
+        """Check if a password matches the password in the document."""
         return bcrypt.checkpw(password.encode('utf-8'),
                               self.hash.encode('utf-8'))
 
