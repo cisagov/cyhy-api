@@ -29,8 +29,8 @@ class TestUsers:
     def test_find_one_user(self):
         """Find one user."""
         user = User.objects.find_one_user('lemmy')
-        assert user is not None, 'user should not be None'
-        assert user.username == 'lemmy', 'user has wrong username'
+        assert user is not None, 'User should not be None.'
+        assert user.username == 'lemmy', 'User has wrong username.'
 
     def test_set_password_without_save(self):
         """Set user's password without save."""
@@ -49,3 +49,10 @@ class TestUsers:
         """Verify user's password."""
         user = User.objects.find_one_user('lemmy')
         assert user.password == 'is_god'
+
+    def test_delete(self):
+        """Test delete."""
+        user = User.objects.find_one_user('lemmy')
+        user.delete()
+        user = User.objects.find_one_user('lemmy')
+        assert user is None, "User was not deleted."
