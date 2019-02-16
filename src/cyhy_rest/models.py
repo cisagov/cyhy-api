@@ -103,7 +103,7 @@ class UserManager(Manager):
         else:
             return None
 
-    def verify_auth_token(self, token, app_secret):
+    def verify_auth_token(self, app_secret, token):
         """Verify a token is valid, and return the associate user document."""
         s = Serializer(app_secret)
         try:
