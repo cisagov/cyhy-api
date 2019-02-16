@@ -29,7 +29,8 @@ TODOS = {
 def verify_password(username_or_token, password):
     """Verify a username:password or token."""
     # first try to authenticate by token
-    user = User.objects.verify_auth_token(username_or_token)
+    user = User.objects.verify_auth_token(username_or_token,
+                                          app.config['SECRET_KEY'])
     if not user:
         # try to authenticate with username/password
         user = User.objects.find_one_user(username_or_token)
@@ -45,7 +46,7 @@ class Token(Resource):
     @auth.login_required
     def get(self):
         """Return a new token for an authenticated user."""
-        token = g.user.generate_auth_token(600)
+        token = g.user.generate_auth_token(app.config['SECRET_KEY'], 600)
         return jsonify({'token': token.decode('ascii'), 'duration': 600})
 
 

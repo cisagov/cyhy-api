@@ -5,7 +5,6 @@ from pymongo.write_concern import WriteConcern
 from pymodm.manager import Manager
 from pymodm.base.fields import MongoBaseField
 import bcrypt
-from flask import current_app as app
 from itsdangerous import (TimedJSONWebSignatureSerializer
                           as Serializer, BadSignature, SignatureExpired)
 
@@ -21,7 +20,7 @@ class HashedPassword:
         """
         # TODO: This is a workaround until we can reliably
         # pass argument is_hash in from the model when set, and fetched
-        # from the database
+        # from the database.
         try:
             bcrypt.checkpw(b'', value.encode('utf-8'))
             # if we got here value is a valid hash
@@ -82,9 +81,11 @@ class PasswordField(MongoBaseField):
                          **kwargs)
 
     def to_python(self, value):
+        """Convert field to a python value."""
         return HashedPassword(value, is_hash=True)
 
     def to_mongo(self, value):
+        """Convert field to a mongo value."""
         return value._hash
 
 
@@ -102,9 +103,9 @@ class UserManager(Manager):
         else:
             return None
 
-    def verify_auth_token(self, token):
+    def verify_auth_token(self, token, app_secret):
         """Verify a token is valid, and return the associate user document."""
-        s = Serializer(app.config['SECRET_KEY'])
+        s = Serializer(app_secret)
         try:
             data = s.loads(token)
         except SignatureExpired:
@@ -129,19 +130,7 @@ class User(MongoModel):
         collection_name = 'users'
         final = True
 
-    # @property
-    # def password(self):
-    #     """Get password."""
-    #     return self.password
-    #
-    # @password.setter
-    # def password(self, cleartext):
-    #     """Store a new password as a hash."""
-    #     salt = bcrypt.gensalt()
-    #     hash_bytes = bcrypt.hashpw(cleartext.encode('utf-8'), salt)
-    #     self._password = hash_bytes.decode()
-
-    def generate_auth_token(self, expiration=600):
+    def generate_auth_token(self, app_secret, expiration=600):
         """Generate a secure authentication token."""
-        s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
+        s = Serializer(app_secret, expires_in=expiration)
         return s.dumps({'id': self.username})
