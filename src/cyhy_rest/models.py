@@ -119,7 +119,7 @@ class User(MongoModel):
     """CyHy User model."""
 
     username = fields.CharField(primary_key=True)
-    password = PasswordField(mongo_name='password')
+    password = PasswordField()
     objects = UserManager()
 
     class Meta:
