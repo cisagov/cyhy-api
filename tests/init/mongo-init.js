@@ -12,5 +12,5 @@ db.createUser({
 // password: foobar
 db.users.insert({
   "_id": "felddy",
-  "hash": "$2b$12$vsQwMGt6iHQY.wBqQpWDNuVf6EjXwPH28OvYtQ2.6iKuWYw2tMLLq"
+  "password": "$2b$12$vsQwMGt6iHQY.wBqQpWDNuVf6EjXwPH28OvYtQ2.6iKuWYw2tMLLq"
 })
