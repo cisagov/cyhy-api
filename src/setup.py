@@ -2,6 +2,25 @@
 
 from setuptools import setup, find_packages
 
+install_requires = [
+    "Flask == 1.0.2",
+    "Flask-HTTPAuth == 3.2.4",
+    "Flask-GraphQL == 2.0.0",
+    "graphene-mongo == 0.2.0",
+    "mongoengine == 0.16.3",
+    "Flask-Bcrypt",  # compiled in Dockerfile
+    "itsdangerous == 1.1.0",
+    "docopt == 0.6.2",
+    "PyYAML == 3.12",
+    "python-dateutil == 2.7.5",
+]
+
+tests_require = [
+    'pytest == 4.1.1',
+    'mock == 2.0.0',
+    'mongomock == 3.15.0'
+]
+
 setup(
     name='cyhy_api',
     version='0.0.1',
@@ -18,22 +37,6 @@ setup(
     license='LICENSE.txt',
     description='Cyber Hygiene API Server',
     # long_description=open('README.md').read(),
-    install_requires=[
-        "Flask == 1.0.2",
-        "Flask-HTTPAuth == 3.2.4",
-        "Flask-Bcrypt",  # compiled in Dockerfile
-        "Flask-RESTful == 0.3.7",
-        "Flask-REST-JSONAPI == 0.22.0",
-        "itsdangerous == 1.1.0",
-        "pymodm == 0.4.1",
-        "docopt == 0.6.2",
-        "PyYAML == 3.12",
-        "python-dateutil == 2.7.5",
-        "pytest == 4.1.1",  # TODO get pip install -e to pickup tests_require
-        "mock == 2.0.0",
-    ],
-    # tests_require=[
-    # 'pytest',
-    # 'mock'
-    # ]
+    install_requires=install_requires + tests_require,
+    # tests_require=tests_require
 )

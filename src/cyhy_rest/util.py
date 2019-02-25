@@ -1,7 +1,7 @@
 """Utility functions."""
 
 import yaml
-from pymodm.connection import connect
+from mongoengine import connect
 
 
 def load_config(filename='/run/secrets/config_yml'):
@@ -18,4 +18,4 @@ def connect_from_config(config=None):
         config = load_config()
     connections = config['connections']
     for alias in connections.keys():
-        connect(connections[alias]['uri'], alias=alias)
+        connect(host=connections[alias]['uri'], alias=alias)
