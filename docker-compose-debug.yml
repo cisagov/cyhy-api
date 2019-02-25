@@ -17,10 +17,13 @@ x-templates:
      - ./src/cyhy_api:/usr/src/cyhy_api/cyhy_api
      - ./tests/src:/home/cisa/tests
     ports:
-      - "4443:5000"
+      - "5000:5000"
     secrets:
       - source: config_yml
+        target: config.yml
       - source: flask_key
+        target: flask.key
+
 
 services:
   bash:
