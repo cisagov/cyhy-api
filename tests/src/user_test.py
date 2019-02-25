@@ -12,8 +12,8 @@ from cyhy_rest.models import User, HashedPassword
 @pytest.fixture(scope="class", autouse=True)
 def connection():
     """Create connections for tests to use."""
-    from cyhy_rest.util import connect_from_config
-    connect_from_config()
+    from mongoengine import connect
+    connect(host='mongomock://localhost', alias='default')
 
 
 class TestUsers:
