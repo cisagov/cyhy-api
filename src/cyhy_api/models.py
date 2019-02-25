@@ -3,9 +3,7 @@
 import bcrypt
 from mongoengine import Document
 from mongoengine.fields import StringField
-from itsdangerous import (TimedJSONWebSignatureSerializer
-                          as Serializer, BadSignature, SignatureExpired)
-
+from mongoengine.errors import DoesNotExist
 
 class HashedPassword:
     """A hashed password."""
@@ -74,7 +72,9 @@ class User(Document):
     """CyHy User model."""
 
     username = StringField(required=True, primary_key=True)
-    _password = PasswordField(required=True, db_field='password')
+    _password = PasswordField(required=True,
+                              db_field='password',
+                              help_text='The user\'s hashed password')
     meta = {'collection': 'users'}
 
     @property
@@ -89,19 +89,12 @@ class User(Document):
         else:
             raise ValueError('Expected a string to set password')
 
-    def generate_auth_token(self, app_secret, expiration=600):
-        """Generate a secure authentication token."""
-        s = Serializer(app_secret, expires_in=expiration)
-        return s.dumps({'id': self.username})
-
     @classmethod
-    def verify_auth_token(cls, app_secret, token):
-        """Verify a token is valid, and return the associate user document."""
-        s = Serializer(app_secret)
+    def find_user_by_username(cls, search):
+        """Verify a username, and return the associate user document."""
+        if '$' in search:  # TODO better sanitization
+            return None
         try:
-            data = s.loads(token)
-        except SignatureExpired:
-            return None    # valid token, but expired TODO: log it
-        except BadSignature:
-            return None    # invalid token TODO: log it
-        return cls.objects.get(username=data['id'])
+            return cls.objects.get(username=search)
+        except DoesNotExist:
+            return None
