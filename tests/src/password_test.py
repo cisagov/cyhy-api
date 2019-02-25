@@ -3,7 +3,7 @@
 
 import pytest
 
-from cyhy_rest.models import HashedPassword
+from cyhy_api.models import HashedPassword
 
 
 class TestHashedPassword:

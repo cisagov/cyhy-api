@@ -6,7 +6,7 @@ import time
 import pytest
 import mongoengine
 
-from cyhy_rest.models import User, HashedPassword
+from cyhy_api.models import User, HashedPassword
 
 
 @pytest.fixture(scope="class", autouse=True)

@@ -1,4 +1,4 @@
-"""Setup environment for Cyber Hygiene REST API Server."""
+"""Setup environment for Cyber Hygiene API Server."""
 
 from setuptools import setup, find_packages
 
@@ -31,7 +31,7 @@ setup(
     zip_safe=False,
     entry_points={
         'console_scripts': [
-            'cyhy-rest-server=cyhy_rest.api:main',
+            'cyhy-api-server=cyhy_api.api:main',
         ],
     },
     license='LICENSE.txt',

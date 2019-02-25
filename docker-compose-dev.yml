@@ -1,6 +1,8 @@
 version: "3.7"
 
 secrets:
+  flask_key:
+    file: ./tests/secrets/flask.key
   config_yml:
     file: ./tests/secrets/config.yml
 
@@ -9,15 +11,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: cyhy-rest-server
+    image: cyhy-api-server
     init: true
-    volumes: # map for development only, comment out otherwise
-     - ./src/cyhy_rest:/usr/src/cyhy_rest/cyhy_rest
+    volumes:
+     - ./src/cyhy_api:/usr/src/cyhy_api/cyhy_api
      - ./tests/src:/home/cisa/tests
     ports:
       - "4443:5000"
     secrets:
       - source: config_yml
+      - source: flask_key
 
   mongo:
     image: mongo

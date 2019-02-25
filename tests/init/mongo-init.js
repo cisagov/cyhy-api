@@ -1,7 +1,7 @@
 db = db.getSiblingDB('cyhy')
 
 db.createUser({
-  user: "rest-server",
+  user: "api-server",
   pwd: "example",
   roles: [{
     role: "readWrite",

@@ -23,10 +23,10 @@ RUN if [ -n "${INSTALL_IPYTHON}" ]; then pip install ipython; fi
 
 WORKDIR ${CISA_SRC}
 
-COPY src cyhy_rest
-RUN pip install -e cyhy_rest
+COPY src cyhy_api
+RUN pip install -e cyhy_api
 
 USER cisa
 WORKDIR ${CISA_HOME}
 EXPOSE 5000/tcp
-ENTRYPOINT ["cyhy-rest-server"]
+ENTRYPOINT ["cyhy-api-server"]

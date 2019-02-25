@@ -1,7 +1,7 @@
 #!/usr/bin/env pytest -vs
 """Tests for utility functions."""
 
-from cyhy_rest.util import connect_from_config
+from cyhy_api.util import connect_from_config
 
 
 class TestUtils:

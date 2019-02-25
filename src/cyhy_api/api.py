@@ -1,8 +1,9 @@
-"""CyHy REST API Server."""
+"""CyHy API Server."""
 
 from flask import Flask, g, jsonify
 from flask_restful import reqparse, abort, Api, Resource
 from flask_httpauth import HTTPBasicAuth
+from mongoengine.errors import DoesNotExist
 
 from .models import User
 from .util import connect_from_config
@@ -29,12 +30,15 @@ TODOS = {
 def verify_password(username_or_token, password):
     """Verify a username:password or token."""
     # first try to authenticate by token
-    user = User.objects.verify_auth_token(username_or_token,
-                                          app.config['SECRET_KEY'])
+    user = User.verify_auth_token(username_or_token,
+                                  app.config['SECRET_KEY'])
     if not user:
         # try to authenticate with username/password
-        user = User.objects.find_one_user(username_or_token)
-        if not user or not user.check_password(password):
+        try:
+            user = User.objects.get(username=username_or_token)
+        except DoesNotExist:
+            return False
+        if not user.password == password:
             return False
     g.user = user
     return True
