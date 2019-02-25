@@ -16,17 +16,6 @@ class HashedPassword:
         If is_hash is True, the object is created from an existing hash.
         Otherwise the value will be hash and stored.
         """
-        # TODO: This is a workaround until we can reliably
-        # pass argument is_hash in from the model when set, and fetched
-        # from the database.
-        try:
-            bcrypt.checkpw(b'', value.encode('utf-8'))
-            # if we got here value is a valid hash
-            is_hash = True
-        except ValueError:
-            # the value was invalid, treat as a cleartext password
-            is_hash = False
-
         if is_hash is True:
             self._hash = value
         else:
