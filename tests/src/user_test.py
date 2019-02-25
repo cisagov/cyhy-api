@@ -39,6 +39,12 @@ class TestUsers:
         assert user is not None, 'User should not be None.'
         assert user.username == 'lemmy', 'User has wrong username.'
 
+    def test_set_password_with_wrong_type(self):
+        """Pass a non-string as the password."""
+        user = User()
+        with pytest.raises(ValueError):
+            user.password = 12345
+
     def test_set_password_without_save(self):
         """Set user's password without save."""
         user = User()

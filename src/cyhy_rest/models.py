@@ -79,15 +79,15 @@ class User(Document):
 
     @property
     def password(self):
-        """Set the password."""
+        """Get the hashed password."""
         return self._password
 
     @password.setter
     def password(self, value):
-        if isinstance(value, PasswordField):
-            self._password = value
-        elif isinstance(value, str):
+        if isinstance(value, str):
             self._password = HashedPassword(value)
+        else:
+            raise ValueError('Expected a string to set password')
 
     def generate_auth_token(self, app_secret, expiration=600):
         """Generate a secure authentication token."""
