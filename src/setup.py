@@ -4,12 +4,11 @@ from setuptools import setup, find_packages
 
 install_requires = [
     "Flask == 1.0.2",
-    "Flask-HTTPAuth == 3.2.4",
+    "Flask-JWT-Extended == 3.17.0",
     "Flask-GraphQL == 2.0.0",
     "graphene-mongo == 0.2.0",
     "mongoengine == 0.16.3",
     "Flask-Bcrypt",  # compiled in Dockerfile
-    "itsdangerous == 1.1.0",
     "docopt == 0.6.2",
     "PyYAML == 3.12",
     "python-dateutil == 2.7.5",
