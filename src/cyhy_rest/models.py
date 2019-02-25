@@ -50,7 +50,7 @@ class HashedPassword:
 
 
 class PasswordField(StringField):
-    """Password storage for models."""
+    """Password storage for documents."""
 
     def validate(self, value):
         """Validate the internal storage of the Field."""
