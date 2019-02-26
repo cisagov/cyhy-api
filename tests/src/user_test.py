@@ -13,7 +13,8 @@ from cyhy_api.models import User, HashedPassword
 def connection():
     """Create connections for tests to use."""
     from mongoengine import connect
-    connect(host='mongomock://localhost', alias='default')
+
+    connect(host="mongomock://localhost", alias="default")
 
 
 class TestUsers:
@@ -22,22 +23,22 @@ class TestUsers:
     def test_creation_without_password(self):
         """Create a new user, and save it."""
         user = User()
-        user.username = 'lemmy'
+        user.username = "lemmy"
         with pytest.raises(mongoengine.errors.ValidationError):
             user.save()
 
     def test_creation_with_password(self):
         """Create a new user, and save it."""
         user = User()
-        user.username = 'lemmy'
-        user.password = 'is_god'
+        user.username = "lemmy"
+        user.password = "is_god"
         user.save()
 
     def test_find_one_user(self):
         """Find one user."""
-        user = User.objects.get(username='lemmy')
-        assert user is not None, 'User should not be None.'
-        assert user.username == 'lemmy', 'User has wrong username.'
+        user = User.objects.get(username="lemmy")
+        assert user is not None, "User should not be None."
+        assert user.username == "lemmy", "User has wrong username."
 
     def test_set_password_with_wrong_type(self):
         """Pass a non-string as the password."""
@@ -48,44 +49,46 @@ class TestUsers:
     def test_set_password_without_save(self):
         """Set user's password without save."""
         user = User()
-        user.password = 'is_god'
-        assert isinstance(user.password, HashedPassword), \
-            'password should be hashed'
-        assert user.password == 'is_god'
+        user.password = "is_god"
+        assert isinstance(
+            user.password, HashedPassword
+        ), "password should be hashed"
+        assert user.password == "is_god"
 
     def test_set_password_with_save(self):
         """Set user's password with save."""
-        user = User.objects.get(username='lemmy')
-        user.password = 'is_god'
+        user = User.objects.get(username="lemmy")
+        user.password = "is_god"
         user.save()
-        assert isinstance(user.password, HashedPassword), \
-            'password should be hashed'
-        assert user.password == 'is_god'
+        assert isinstance(
+            user.password, HashedPassword
+        ), "password should be hashed"
+        assert user.password == "is_god"
 
     def test_check_password(self):
         """Verify user's password."""
-        user = User.objects.get(username='lemmy')
-        assert user.password == 'is_god'
+        user = User.objects.get(username="lemmy")
+        assert user.password == "is_god"
 
     def test_resave_password(self):
         """Verify user's password."""
-        user = User.objects.get(username='lemmy')
+        user = User.objects.get(username="lemmy")
         user.save()
 
     def test_delete(self):
         """Test delete."""
-        user = User.objects.get(username='lemmy')
+        user = User.objects.get(username="lemmy")
         user.delete()
         with pytest.raises(mongoengine.errors.DoesNotExist):
-            user = User.objects.get(username='lemmy')
+            user = User.objects.get(username="lemmy")
 
     def test_user_token(self):
         """Test creation and verification of a token."""
-        secret = 'Kevin Spacey is Keyser Söze'
-        wrong_secret = 'Darth Vader is Luke\'s Father'
+        secret = "Kevin Spacey is Keyser Söze"
+        wrong_secret = "Darth Vader is Luke's Father"
         user = User()
-        user.username = 'toki'
-        user.password = 'pickel'
+        user.username = "toki"
+        user.password = "pickel"
         user.save()
         # generate a token that will be valid for one second
         token = user.generate_auth_token(secret, expiration=1)
