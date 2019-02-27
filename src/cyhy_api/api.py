@@ -15,9 +15,8 @@ def load_secret(app, filename="/run/secrets/flask.key"):
     app.secret_key = key
 
 
-def main():
-    """Start the application."""
-    # import IPython; IPython.embed()  # noqa: E702 <<< BREAKPOINT >>>
+def create_app():
+    """Create the Flask application."""
     app = Flask(__name__)
     load_secret(app)
     app.config["JWT_SECRET_KEY"] = app.config["SECRET_KEY"]
@@ -27,6 +26,13 @@ def main():
     app.config["GRAPHIQL"] = True
     Schema(app)
     GraphQLAuth(app)
+    return app
+
+
+def main():
+    """Start the application."""
+    # import IPython; IPython.embed()  # noqa: E702 <<< BREAKPOINT >>>
+    app = create_app()
     connect_from_config()
     app.run(host="0.0.0.0", debug=True)
 
