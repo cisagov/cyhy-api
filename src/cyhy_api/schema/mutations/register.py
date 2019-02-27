@@ -6,18 +6,16 @@ from ..fields import ResponseMessageField
 
 class RegisterMutation(graphene.Mutation):
     class Arguments(object):
-        id = graphene.String()
-        username = graphene.String()
-        password = graphene.String()
-        description = graphene.String()
+        username = graphene.String(required=True)
+        password = graphene.String(required=True)
 
     result = graphene.Field(ResponseMessageField)
 
     @staticmethod
-    def mutate(root, info, **kwargs):
+    def mutate(root, info, username, password):
         user = UserModel()
-        user.username = kwargs["username"]
-        user.password = kwargs["password"]
+        user.username = username
+        user.password = password
         user.save()
         # UserModel(**kwargs).save()
 
