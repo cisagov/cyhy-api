@@ -13,6 +13,7 @@ services:
       dockerfile: Dockerfile
     image: cyhy-api-server
     init: true
+    restart: always
     volumes:
      - ./src/cyhy_api:/usr/src/cyhy_api/cyhy_api
      - ./tests/src:/home/cisa/tests
