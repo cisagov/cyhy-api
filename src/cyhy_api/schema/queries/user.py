@@ -9,9 +9,12 @@ from flask_graphql_auth import query_jwt_required
 def resolve_user(root, info, **kwargs):
     username = kwargs.get("username", None)
 
-    users = UserModel.objects(username=username)
+    if username:
+        users = UserModel.objects(username=username)
+    else:
+        users = UserModel.objects()
 
-    if users.first() is None:
+    if users.count() == 0:
         return ResponseMessageField(is_success=False, message="Not found")
 
     return UserResults(
