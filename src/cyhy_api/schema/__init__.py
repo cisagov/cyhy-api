@@ -5,10 +5,11 @@ from .mutations import Mutation
 from .queries import Query
 
 
+schema = graphene.Schema(query=Query, mutation=Mutation)
+
+
 class Schema:
     def __init__(self, app):
-        schema = graphene.Schema(query=Query, mutation=Mutation)  # types=?
-
         app.add_url_rule(
             "/graphql",
             view_func=GraphQLView.as_view(
