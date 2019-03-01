@@ -1,8 +1,7 @@
 from flask_jwt_extended import jwt_required, get_current_user
 
 from cyhy_api.model import UserModel
-from ..fields import UserField, ResponseMessageField
-from ..unions.query import UserResults
+from ..fields import UserField
 
 
 @jwt_required
@@ -16,12 +15,9 @@ def resolve_user(root, info, **kwargs):
     else:
         users = UserModel.objects()
 
-    if users.count() == 0:
-        return ResponseMessageField(is_success=False, message="Not found")
-
-    return UserResults(
-        users=[
-            UserField(username=user.username, password=user.password)
-            for user in users
-        ]
-    )
+    return [
+        UserField(
+            username=user.username, password=user.password, id=user.username
+        )
+        for user in users
+    ]

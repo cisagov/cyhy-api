@@ -17,7 +17,6 @@ class RegisterMutation(graphene.Mutation):
         user.username = username
         user.password = password
         user.save()
-        # UserModel(**kwargs).save()
 
         return RegisterMutation(
             ResponseMessageField(

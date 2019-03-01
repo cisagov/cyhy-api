@@ -1,19 +1,17 @@
 import graphene
 
-# from graphene.relay import Node
+from graphene.relay import Node
 
 from .user import resolve_user
-from ..unions.query import UserUnion
+from ..fields import UserField
 
 
 class Query(graphene.ObjectType):
-    # node = Node.Field()
+    node = Node.Field()
     # all_users = MongoengineConnectionField(User)
 
     user = graphene.Field(
-        type=UserUnion,
-        token=graphene.NonNull(graphene.String),
-        id=graphene.Int(default_value=None),
+        type=graphene.List(UserField),
         username=graphene.String(default_value=None),
         resolver=resolve_user,
     )
