@@ -5,6 +5,7 @@ ARG CISA_UID=421
 ARG INSTALL_IPYTHON="Yes Please"
 ARG CISA_SRC="/usr/src"
 ENV CISA_HOME="/home/cisa"
+ENV PYTHONUNBUFFERED=1
 
 RUN addgroup -S -g ${CISA_UID} cisa \
   && adduser -S -u ${CISA_UID} -G cisa cisa \
