@@ -1,17 +1,11 @@
 """CyHy API Server."""
 
 from flask import Flask
-from flask_graphql_auth import GraphQLAuth
 from flask_jwt_extended import JWTManager
 
 from .util import connect_from_config
 from .schema import Schema
 from .model import UserModel
-
-
-def we_got_one(who):
-    print(f"WE GOT ONE!!!! {who}")
-    return UserModel.objects(username=who).first()
 
 
 def load_secret(app, filename="/run/secrets/flask.key"):
@@ -33,9 +27,13 @@ def create_app():
     app.config["DEBUG"] = True
     app.config["GRAPHIQL"] = True
     Schema(app)
-    GraphQLAuth(app)
     jwt = JWTManager(app)
-    jwt.user_loader_callback_loader(we_got_one)
+
+    @jwt.user_loader_callback_loader
+    def we_got_one(who):
+        print(f"WE GOT ONE!!!! {who}")
+        return UserModel.objects(username=who).first()
+
     return app
 
 
