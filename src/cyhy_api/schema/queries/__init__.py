@@ -12,7 +12,9 @@ class Query(graphene.ObjectType):
     # all_users = MongoengineConnectionField(User)
 
     viewer = graphene.Field(
-        type=graphene.NonNull(UserField), resolver=resolve_viewer
+        type=graphene.NonNull(UserField),
+        resolver=resolve_viewer,
+        description="The currently authenticated user.",
     )
 
     user = graphene.Field(
