@@ -80,26 +80,3 @@ class TestUsers:
         user.delete()
         with pytest.raises(mongoengine.errors.DoesNotExist):
             user = UserModel.objects.get(username="lemmy")
-
-    # JWT Tokens were removed from this class
-    # def test_user_token(self):
-    #     """Test creation and verification of a token."""
-    #     secret = "Kevin Spacey is Keyser Söze"
-    #     wrong_secret = "Darth Vader is Luke's Father"
-    #     user = UserModel()
-    #     user.username = "toki"
-    #     user.password = "pickel"
-    #     user.save()
-    #     # generate a token that will be valid for one second
-    #     token = user.generate_auth_token(secret, expiration=1)
-    #     user2 = UserModel.verify_auth_token(secret, token)
-    #     assert user == user2, "Equivalent User should have been returned."
-    #     assert user is not user2, "Objects should not be the same (memory)."
-    #     # using the wrong secret should break the verification
-    #     user3 = UserModel.verify_auth_token(wrong_secret, token)
-    #     assert user3 is None, "Token should be invalid."
-    #     # verification after exipration should break the validation
-    #     time.sleep(2)  # wait for token to expired
-    #     user4 = UserModel.verify_auth_token(secret, token)
-    #     assert user4 is None, "Token did not expire properly."
-    #     user.delete()
