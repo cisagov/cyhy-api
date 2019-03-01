@@ -1,12 +1,14 @@
+from flask_jwt_extended import jwt_required, get_current_user
+
 from cyhy_api.model import UserModel
 from ..fields import UserField, ResponseMessageField
 from ..unions.query import UserResults
 
-from flask_graphql_auth import query_jwt_required
 
-
-@query_jwt_required
+@jwt_required
 def resolve_user(root, info, **kwargs):
+    whos_asking = get_current_user()
+    print(f"WHO'S ASKING!> {whos_asking.username}")
     username = kwargs.get("username", None)
 
     if username:

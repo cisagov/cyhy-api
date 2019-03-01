@@ -2,9 +2,16 @@
 
 from flask import Flask
 from flask_graphql_auth import GraphQLAuth
+from flask_jwt_extended import JWTManager
 
 from .util import connect_from_config
 from .schema import Schema
+from .model import UserModel
+
+
+def we_got_one(who):
+    print(f"WE GOT ONE!!!! {who}")
+    return UserModel.objects(username=who).first()
 
 
 def load_secret(app, filename="/run/secrets/flask.key"):
@@ -20,12 +27,15 @@ def create_app():
     app = Flask(__name__)
     load_secret(app)
     app.config["JWT_SECRET_KEY"] = app.config["SECRET_KEY"]
-    app.config["JWT_REFRESH_TOKEN_EXPIRES"] = 30
-    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 10
+    app.config["JWT_REFRESH_TOKEN_EXPIRES"] = 180
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 60
+    app.config["JWT_TOKEN_LOCATION"] = ("headers", "cookies")
     app.config["DEBUG"] = True
     app.config["GRAPHIQL"] = True
     Schema(app)
     GraphQLAuth(app)
+    jwt = JWTManager(app)
+    jwt.user_loader_callback_loader(we_got_one)
     return app
 
 
