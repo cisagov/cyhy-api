@@ -1,5 +1,7 @@
 """CyHy API Server."""
 
+from datetime import timedelta
+
 from flask import Flask
 from flask_jwt_extended import JWTManager
 
@@ -21,8 +23,8 @@ def create_app():
     app = Flask(__name__)
     load_secret(app)
     app.config["JWT_SECRET_KEY"] = app.config["SECRET_KEY"]
-    app.config["JWT_REFRESH_TOKEN_EXPIRES"] = 180
-    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 60
+    app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=15)
     app.config["JWT_TOKEN_LOCATION"] = ("headers", "cookies")
     app.config["DEBUG"] = True
     app.config["GRAPHIQL"] = True
