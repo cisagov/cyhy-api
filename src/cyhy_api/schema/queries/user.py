@@ -5,10 +5,9 @@ from ..fields import UserField
 
 
 @jwt_required
-def resolve_user(root, info, **kwargs):
+def resolve_user(root, info, username=None, **kwargs):
     whos_asking = get_current_user()
     print(f"WHO'S ASKING!> {whos_asking.username}")
-    username = kwargs.get("username", None)
 
     if username:
         users = UserModel.objects(username=username)
