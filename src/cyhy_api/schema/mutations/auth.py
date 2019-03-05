@@ -28,6 +28,7 @@ class AuthMutation(graphene.Mutation):
                 AuthField(
                     access_token=access_token,
                     refresh_token=refresh_token,
+                    username=username,
                     message="Login Success",
                 )
             )

@@ -14,4 +14,5 @@ class RefreshField(graphene.ObjectType):
 class AuthField(graphene.ObjectType):
     access_token = graphene.String()
     refresh_token = graphene.String()
+    username = graphene.String()
     message = graphene.String()
