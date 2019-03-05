@@ -4,6 +4,7 @@ from datetime import timedelta
 
 from flask import Flask
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 from .util import connect_from_config
 from .schema import Schema
@@ -30,6 +31,7 @@ def create_app():
     app.config["GRAPHIQL"] = True
     Schema(app)
     jwt = JWTManager(app)
+    CORS(app)  # TODO define specific origin
 
     @jwt.user_loader_callback_loader
     def we_got_one(who):
