@@ -1,16 +1,15 @@
 import graphene
-from flask_graphql_auth import AuthInfoField
 
-from ..fields import ResponseMessageField, AuthField, RefreshField
+from ..fields import ResponseMessageField, AuthField
 
 
-class ResponseUnion(graphene.Union):
-    class Meta:
-        types = (ResponseMessageField, AuthInfoField)
-
-    @classmethod
-    def resolve_type(cls, instance, info):
-        return type(instance)
+# class ResponseUnion(graphene.Union):
+#     class Meta:
+#         types = (ResponseMessageField,)
+#
+#     @classmethod
+#     def resolve_type(cls, instance, info):
+#         return type(instance)
 
 
 class AuthUnion(graphene.Union):
@@ -22,10 +21,10 @@ class AuthUnion(graphene.Union):
         return type(instance)
 
 
-class RefreshUnion(graphene.Union):
-    class Meta:
-        types = (RefreshField, AuthInfoField)
-
-    @classmethod
-    def resolve_type(cls, instance, info):
-        return type(instance)
+# class RefreshUnion(graphene.Union):
+#     class Meta:
+#         types = (RefreshField, ResponseMessageField)
+#
+#     @classmethod
+#     def resolve_type(cls, instance, info):
+#         return type(instance)

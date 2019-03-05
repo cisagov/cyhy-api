@@ -7,7 +7,7 @@ from flask_jwt_extended import (
 )
 
 from cyhy_api.model import UserModel
-from ..unions.mutation import AuthUnion, RefreshUnion
+from ..unions.mutation import AuthUnion
 from ..fields import AuthField, RefreshField, ResponseMessageField
 
 
@@ -38,7 +38,7 @@ class AuthMutation(graphene.Mutation):
 
 
 class RefreshMutation(graphene.Mutation):
-    result = graphene.Field(RefreshUnion)
+    result = graphene.Field(RefreshField)
 
     @jwt_refresh_token_required
     def mutate(self, info):
