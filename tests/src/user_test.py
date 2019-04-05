@@ -22,22 +22,22 @@ class TestUsers:
     def test_creation_without_password(self):
         """Create a new user, and save it."""
         user = UserModel()
-        user.username = "lemmy"
+        user.email = "lemmy@imotorhead.com"
         with pytest.raises(mongoengine.errors.ValidationError):
             user.save()
 
     def test_creation_with_password(self):
         """Create a new user, and save it."""
         user = UserModel()
-        user.username = "lemmy"
+        user.email = "lemmy@imotorhead.com"
         user.password = "is_god"
         user.save()
 
     def test_find_one_user(self):
         """Find one user."""
-        user = UserModel.objects.get(username="lemmy")
+        user = UserModel.objects.get(email="lemmy@imotorhead.com")
         assert user is not None, "User should not be None."
-        assert user.username == "lemmy", "User has wrong username."
+        assert user.email == "lemmy@imotorhead.com", "User has wrong email."
 
     def test_set_password_with_wrong_type(self):
         """Pass a non-string as the password."""
@@ -49,34 +49,30 @@ class TestUsers:
         """Set user's password without save."""
         user = UserModel()
         user.password = "is_god"
-        assert isinstance(
-            user.password, HashedPassword
-        ), "password should be hashed"
+        assert isinstance(user.password, HashedPassword), "password should be hashed"
         assert user.password == "is_god"
 
     def test_set_password_with_save(self):
         """Set user's password with save."""
-        user = UserModel.objects.get(username="lemmy")
+        user = UserModel.objects.get(email="lemmy@imotorhead.com")
         user.password = "is_god"
         user.save()
-        assert isinstance(
-            user.password, HashedPassword
-        ), "password should be hashed"
+        assert isinstance(user.password, HashedPassword), "password should be hashed"
         assert user.password == "is_god"
 
     def test_check_password(self):
         """Verify user's password."""
-        user = UserModel.objects.get(username="lemmy")
+        user = UserModel.objects.get(email="lemmy@imotorhead.com")
         assert user.password == "is_god"
 
     def test_resave_password(self):
         """Verify user's password."""
-        user = UserModel.objects.get(username="lemmy")
+        user = UserModel.objects.get(email="lemmy@imotorhead.com")
         user.save()
 
     def test_delete(self):
         """Test delete."""
-        user = UserModel.objects.get(username="lemmy")
+        user = UserModel.objects.get(email="lemmy@imotorhead.com")
         user.delete()
         with pytest.raises(mongoengine.errors.DoesNotExist):
-            user = UserModel.objects.get(username="lemmy")
+            user = UserModel.objects.get(email="lemmy@imotorhead.com")

@@ -1,9 +1,10 @@
 """CyHy API Server."""
 
 from datetime import timedelta
+import pprint
 
-from flask import Flask
-from flask_jwt_extended import JWTManager
+from flask import Flask, request
+from flask_jwt_extended import JWTManager, decode_token
 from flask_cors import CORS
 
 from .util import connect_from_config
@@ -34,9 +35,23 @@ def create_app():
     CORS(app)  # TODO define specific origin
 
     @jwt.user_loader_callback_loader
-    def we_got_one(who):
-        print(f"WE GOT ONE!!!! {who}")
-        return UserModel.objects(username=who).first()
+    def we_got_one(uid):
+        user = UserModel.objects(id=uid).first()
+        if user:
+            print(f"WE GOT ONE!!!! {uid}:{user.email}")
+            return user
+
+    @app.before_request
+    def log_request():
+        # app.logger.debug("Request Headers %s", request.headers)
+        if "Authorization" in request.headers:
+            header_value = request.headers.get("Authorization")
+            if header_value:
+                bearer, token = header_value.split()
+                app.logger.debug(
+                    pprint.pformat(decode_token(token, allow_expired=True))
+                )
+        return None
 
     return app
 

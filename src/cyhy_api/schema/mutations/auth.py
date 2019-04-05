@@ -13,22 +13,21 @@ from ..fields import AuthField, RefreshField, ResponseMessageField
 
 class AuthMutation(graphene.Mutation):
     class Arguments(object):
-        username = graphene.NonNull(graphene.String)
+        email = graphene.NonNull(graphene.String)
         password = graphene.NonNull(graphene.String)
 
     result = graphene.Field(AuthUnion)
 
-    def mutate(self, info, username, password, **kwargs):
-        user = UserModel.objects(username=username).first()
-
+    def mutate(self, info, email, password, **kwargs):
+        user = UserModel.objects(email=email).first()
         if user is not None and user.password == password:
-            access_token = create_access_token(identity=username, fresh=True)
-            refresh_token = create_refresh_token(identity=username)
+            access_token = create_access_token(identity=user.uid, fresh=True)
+            refresh_token = create_refresh_token(identity=user.uid)
             return AuthMutation(
                 AuthField(
                     access_token=access_token,
                     refresh_token=refresh_token,
-                    username=username,
+                    uid=user.uid,
                     message="Login Success",
                 )
             )
@@ -45,9 +44,7 @@ class RefreshMutation(graphene.Mutation):
     def mutate(self, info):
         return RefreshMutation(
             RefreshField(
-                access_token=create_access_token(
-                    get_jwt_identity(), fresh=False
-                ),
+                access_token=create_access_token(get_jwt_identity(), fresh=False),
                 message="Refresh success",
             )
         )

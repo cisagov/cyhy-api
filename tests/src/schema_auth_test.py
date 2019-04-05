@@ -35,7 +35,7 @@ class TestAuth:
         """Test user registration."""
         query = """
                 mutation {
-                  register(username: "bobbo", password: "foobar") {
+                  register(email: "bobbo@pekinggourmet.com", password: "foobar") {
                     result {
                       isSuccess
                       message
@@ -49,16 +49,16 @@ class TestAuth:
             executed["data"]["register"]["result"]["isSuccess"] is True
         ), "Expected success."
         # let's check the database and see if the user is really there
-        user = UserModel.objects(username="bobbo").first()
+        user = UserModel.objects(email="bobbo@pekinggourmet.com").first()
         assert user is not None
-        assert user.username == "bobbo"
+        assert user.email == "bobbo@pekinggourmet.com"
         assert user.password == "foobar"
 
     def test_auth_mutation(self, client, context):
         """Test user authentication."""
         query = """
                 mutation {
-                  auth(username: "bobbo", password: "foobar") {
+                  auth(email: "bobbo@pekinggourmet.com", password: "foobar") {
                     result {
                       __typename
                       ... on AuthField {

@@ -5,7 +5,8 @@ from cyhy_api.model import UserModel
 
 
 class UserField(graphene.ObjectType):
-    username = graphene.String()
+    uid = graphene.String()
+    email = graphene.String()
     password = graphene.String()  # TODO remove, here just for play
 
     class Meta:
@@ -13,8 +14,6 @@ class UserField(graphene.ObjectType):
         interfaces = (Node,)
 
     @classmethod
-    def get_node(cls, info, id):
-        user = UserModel.objects(username=id).first()
-        return UserField(
-            username=user.username, password=user.password, id=user.username
-        )
+    def get_node(cls, info, uid):
+        user = UserModel.objects(uid=uid).first()
+        return UserField(uid=user.uid, email=user.email, password=user.password)

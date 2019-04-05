@@ -7,6 +7,4 @@ from ..fields import UserField
 def resolve_viewer(root, info, **kwargs):
     user = get_current_user()
 
-    return UserField(
-        username=user.username, password=user.password, id=user.username
-    )
+    return UserField(email=user.email, password=user.password, id=user.uid)
