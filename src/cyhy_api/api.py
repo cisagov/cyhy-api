@@ -35,11 +35,15 @@ def create_app():
     CORS(app)  # TODO define specific origin
 
     @jwt.user_loader_callback_loader
-    def we_got_one(uid):
+    def user_loader(uid):
+        app.logger.debug(f"Looking up user with uid: {uid}")
         user = UserModel.objects(id=uid).first()
         if user:
-            print(f"WE GOT ONE!!!! {uid}:{user.email}")
+            app.logger.debug(f"Found user: {user.email}")
             return user
+        else:
+            app.logger.warn(f"Could not find a user with uid: {uid}")
+            return None
 
     @app.before_request
     def log_request():
