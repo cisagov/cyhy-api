@@ -3,7 +3,7 @@ version: "3.7"
 secrets:
   flask_key:
     external: true
-  cyhy_config_yml:
+  config_yml:
     external: true
 
 services:
