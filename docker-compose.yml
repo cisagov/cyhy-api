@@ -10,6 +10,9 @@ services:
   api-server:
     image: cyhy-api-server
     init: true
+    restart: always
+    environment:
+      FLASK_ENV: production
     ports:
       - "5000:5000"
     secrets:

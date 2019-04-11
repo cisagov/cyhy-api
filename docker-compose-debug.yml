@@ -13,6 +13,9 @@ x-templates:
       dockerfile: Dockerfile
     image: cyhy-api-server
     init: true
+    restart: always
+    environment:
+      FLASK_ENV: development
     volumes:
       - ./src/cyhy_api:/usr/src/cyhy_api/cyhy_api
       - ./tests/src:/home/cisa/tests
