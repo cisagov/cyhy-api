@@ -4,7 +4,7 @@ secrets:
   flask_key:
     file: ./tests/secrets/flask.key
   config_yml:
-    file: ./tests/secrets/config.yml
+    file: ./tests/secrets/config-mock.yml
 
 x-templates:
   api-server: &api-server
@@ -14,8 +14,8 @@ x-templates:
     image: cyhy-api-server
     init: true
     volumes:
-     - ./src/cyhy_api:/usr/src/cyhy_api/cyhy_api
-     - ./tests/src:/home/cisa/tests
+      - ./src/cyhy_api:/usr/src/cyhy_api/cyhy_api
+      - ./tests/src:/home/cisa/tests
     ports:
       - "5000:5000"
     secrets:
@@ -23,7 +23,6 @@ x-templates:
         target: config.yml
       - source: flask_key
         target: flask.key
-
 
 services:
   bash:
