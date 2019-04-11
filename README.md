@@ -27,6 +27,11 @@ available at [http://localhost:5000/graphql](http://localhost:5000/graphql)
 - a [Mongo Express](https://github.com/mongo-express/mongo-express) web client
 to view the database avaiable at [http://localhost:8081](http://localhost:8081)
 
+A default user is created in the development database:
+
+- E-Mail: `foo@bar.gov`
+- Password: `foobar`
+
 ### Testing
 
 System and unit tests can be run using the debug container composition:
