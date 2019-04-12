@@ -29,6 +29,16 @@ class RefreshToken(EmbeddedDocument):
     # https://tools.ietf.org/html/rfc7519#section-4.1.6
     issued_at = DateTimeField(required=True)
 
+    def __eq__(self, other):
+        if not isinstance(other, RefreshToken):
+            return False
+        return (
+            EmbeddedDocument.__eq__(self, other)
+            and self.expiration == other.expiration
+            and self.not_before == other.not_before
+            and self.issued_at == other.issued_at
+        )
+
     def init_from_jwt(self, jwt_token):
         self.expiration = datetime.fromtimestamp(jwt_token["exp"])
         self.not_before = datetime.fromtimestamp(jwt_token["nbf"])
