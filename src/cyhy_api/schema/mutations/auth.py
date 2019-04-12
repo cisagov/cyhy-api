@@ -42,9 +42,11 @@ class RefreshMutation(graphene.Mutation):
 
     @jwt_refresh_token_required
     def mutate(self, info):
+        identity = get_jwt_identity()
         return RefreshMutation(
             RefreshField(
-                access_token=create_access_token(get_jwt_identity(), fresh=False),
+                access_token=create_access_token(identity, fresh=False),
+                uid=identity,
                 message="Refresh success",
             )
         )
