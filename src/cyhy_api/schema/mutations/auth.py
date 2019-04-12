@@ -64,3 +64,24 @@ class RefreshMutation(graphene.Mutation):
                     is_success=False, message="Refresh token expired or revoked."
                 )
             )
+
+
+class LogoutMutation(graphene.Mutation):
+    result = graphene.Field(ResponseMessageField)
+
+    @jwt_refresh_token_required
+    def mutate(self, info):
+        user = get_current_user()
+        refresh_token = get_raw_jwt()
+        if user.revoke_refresh_token(refresh_token) is None:
+            return LogoutMutation(
+                ResponseMessageField(
+                    is_success=False, message="Unable to revoke refresh token."
+                )
+            )
+        else:
+            return LogoutMutation(
+                ResponseMessageField(
+                    is_success=True, message="Refresh token revoked.  User logged out."
+                )
+            )

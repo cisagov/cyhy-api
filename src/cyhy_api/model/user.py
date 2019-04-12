@@ -69,7 +69,7 @@ class UserModel(Document):
         self.tokens[refresh_token["jti"]] = token
 
     def revoke_refresh_token(self, refresh_token):
-        return self.tokens.pop(refresh_token["jti"])
+        return self.tokens.pop(refresh_token["jti"], None)
 
     def verify_refresh_token(self, refresh_token):
         # TODO expire tokens
