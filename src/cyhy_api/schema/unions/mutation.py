@@ -1,6 +1,6 @@
 import graphene
 
-from ..fields import ResponseMessageField, AuthField
+from ..fields import ResponseMessageField, AuthField, RefreshField
 
 
 # class ResponseUnion(graphene.Union):
@@ -21,10 +21,10 @@ class AuthUnion(graphene.Union):
         return type(instance)
 
 
-# class RefreshUnion(graphene.Union):
-#     class Meta:
-#         types = (RefreshField, ResponseMessageField)
-#
-#     @classmethod
-#     def resolve_type(cls, instance, info):
-#         return type(instance)
+class RefreshUnion(graphene.Union):
+    class Meta:
+        types = (RefreshField, ResponseMessageField)
+
+    @classmethod
+    def resolve_type(cls, instance, info):
+        return type(instance)

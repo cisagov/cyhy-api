@@ -9,7 +9,7 @@ from flask_jwt_extended import (
 )
 
 from cyhy_api.model import UserModel
-from ..unions.mutation import AuthUnion
+from ..unions.mutation import AuthUnion, RefreshUnion
 from ..fields import AuthField, RefreshField, ResponseMessageField
 
 
@@ -43,7 +43,7 @@ class AuthMutation(graphene.Mutation):
 
 
 class RefreshMutation(graphene.Mutation):
-    result = graphene.Field(RefreshField)
+    result = graphene.Field(RefreshUnion)
 
     @jwt_refresh_token_required
     def mutate(self, info):
@@ -55,11 +55,10 @@ class RefreshMutation(graphene.Mutation):
                 RefreshField(
                     access_token=create_access_token(user.uid, fresh=False),
                     uid=user.uid,
-                    message="Refresh success",
                 )
             )
         else:
-            return AuthMutation(
+            return RefreshMutation(
                 ResponseMessageField(
                     is_success=False, message="Refresh token expired or revoked."
                 )
@@ -73,15 +72,17 @@ class LogoutMutation(graphene.Mutation):
     def mutate(self, info):
         user = get_current_user()
         refresh_token = get_raw_jwt()
-        if user.revoke_refresh_token(refresh_token) is None:
+        success = user.revoke_refresh_token(refresh_token) is not None
+        if success:
+            user.save()
             return LogoutMutation(
                 ResponseMessageField(
-                    is_success=False, message="Unable to revoke refresh token."
+                    is_success=True, message="Refresh token revoked.  User logged out."
                 )
             )
         else:
             return LogoutMutation(
                 ResponseMessageField(
-                    is_success=True, message="Refresh token revoked.  User logged out."
+                    is_success=False, message="Unable to revoke refresh token."
                 )
             )

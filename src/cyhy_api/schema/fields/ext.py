@@ -9,7 +9,6 @@ class ResponseMessageField(graphene.ObjectType):
 class RefreshField(graphene.ObjectType):
     access_token = graphene.String()
     uid = graphene.String()
-    message = graphene.String()
 
 
 class AuthField(graphene.ObjectType):
