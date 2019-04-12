@@ -15,4 +15,4 @@ select = C,E,F,W,B,B950
 # Ignore flake8's default warning about maximum line length, which has
 # a hard stop at the configured value.  Instead we use
 # flake8-bugbear's B950, which allows up to 10% overage.
-ignore = E501
+ignore = E501, W503
