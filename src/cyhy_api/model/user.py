@@ -63,17 +63,17 @@ class UserModel(Document):
         else:
             raise ValueError("Expected a string to set password")
 
-    def add_refresh_token(self, jwt_token):
+    def add_refresh_token(self, refresh_token):
         token = RefreshToken()
-        token.init_from_jwt(jwt_token)
-        self.tokens[jwt_token["jti"]] = token
+        token.init_from_jwt(refresh_token)
+        self.tokens[refresh_token["jti"]] = token
 
-    def revoke_refresh_token(self, jti):
-        return self.tokens.pop(jti)
+    def revoke_refresh_token(self, refresh_token):
+        return self.tokens.pop(refresh_token["jti"])
 
-    def verify_refresh_token(self, jti):
+    def verify_refresh_token(self, refresh_token):
         # TODO expire tokens
-        return jti in self.tokens
+        return refresh_token["jti"] in self.tokens
 
     @classmethod
     def find_user_by_email(cls, search):

@@ -4,6 +4,7 @@ from flask_jwt_extended import (
     create_refresh_token,
     decode_token,
     get_current_user,
+    get_raw_jwt,
     jwt_refresh_token_required,
 )
 
@@ -47,10 +48,19 @@ class RefreshMutation(graphene.Mutation):
     @jwt_refresh_token_required
     def mutate(self, info):
         user = get_current_user()
-        return RefreshMutation(
-            RefreshField(
-                access_token=create_access_token(user.uid, fresh=False),
-                uid=user.uid,
-                message="Refresh success",
+        refresh_token = get_raw_jwt()
+        # verify that this refresh token has not been revoked
+        if user.verify_refresh_token(refresh_token):
+            return RefreshMutation(
+                RefreshField(
+                    access_token=create_access_token(user.uid, fresh=False),
+                    uid=user.uid,
+                    message="Refresh success",
+                )
             )
-        )
+        else:
+            return AuthMutation(
+                ResponseMessageField(
+                    is_success=False, message="Refresh token expired or revoked."
+                )
+            )
