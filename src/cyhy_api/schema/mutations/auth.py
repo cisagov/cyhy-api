@@ -2,7 +2,8 @@ import graphene
 from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
-    get_jwt_identity,
+    decode_token,
+    get_current_user,
     jwt_refresh_token_required,
 )
 
@@ -23,6 +24,9 @@ class AuthMutation(graphene.Mutation):
         if user is not None and user.password == password:
             access_token = create_access_token(identity=user.uid, fresh=True)
             refresh_token = create_refresh_token(identity=user.uid)
+            # store token
+            user.add_refresh_token(decode_token(refresh_token))
+            user.save()
             return AuthMutation(
                 AuthField(
                     access_token=access_token,
@@ -42,11 +46,11 @@ class RefreshMutation(graphene.Mutation):
 
     @jwt_refresh_token_required
     def mutate(self, info):
-        identity = get_jwt_identity()
+        user = get_current_user()
         return RefreshMutation(
             RefreshField(
-                access_token=create_access_token(identity, fresh=False),
-                uid=identity,
+                access_token=create_access_token(user.uid, fresh=False),
+                uid=user.uid,
                 message="Refresh success",
             )
         )
