@@ -1,2 +1,2 @@
 [bandit]
-tests: B101
+skips: B101
