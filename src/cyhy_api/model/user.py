@@ -6,6 +6,7 @@ from mongoengine.fields import (
     EmbeddedDocumentField,
     DateTimeField,
     MapField,
+    StringField,
 )
 from mongoengine.errors import DoesNotExist
 
@@ -49,6 +50,8 @@ class UserModel(Document):
     """CyHy User model."""
 
     # id is used as the uid
+    first_name = StringField(required=True, help_text="The user's given name")
+    last_name = StringField(required=True, help_text="The user's surname")
     email = EmailField(required=True, help_text="The user's email address")
     _password = PasswordField(
         required=True, db_field="password", help_text="The user's hashed password"
