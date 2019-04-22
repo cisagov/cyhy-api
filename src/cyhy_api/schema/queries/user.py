@@ -15,8 +15,6 @@ def resolve_user(root, info, username=None, **kwargs):
         users = UserModel.objects()
 
     return [
-        UserField(
-            username=user.username, password=user.password, id=user.username
-        )
+        UserField(username=user.username, password=user.password, id=user.username)
         for user in users
     ]

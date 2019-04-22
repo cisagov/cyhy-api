@@ -29,9 +29,7 @@ class HashedPassword:
         if self is other:
             return True
         if isinstance(other, str):
-            return bcrypt.checkpw(
-                other.encode("utf-8"), self._hash.encode("utf-8")
-            )
+            return bcrypt.checkpw(other.encode("utf-8"), self._hash.encode("utf-8"))
         else:
             return False
 

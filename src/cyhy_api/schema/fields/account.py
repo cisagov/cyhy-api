@@ -2,9 +2,7 @@ import graphene
 
 
 class AccountField(graphene.ObjectType):
-    id = graphene.Int(
-        required=True, description="The unique numeric identifier."
-    )
+    id = graphene.Int(required=True, description="The unique numeric identifier.")
     name = graphene.String(
         required=True, description="The name assigend to this account."
     )
