@@ -15,7 +15,12 @@ install_requires = [
     "python-dateutil == 2.7.5",
 ]
 
-tests_require = ["pytest == 4.1.1", "mock == 2.0.0", "mongomock == 3.15.0"]
+tests_require = [
+    "pytest == 4.1.1",
+    "mock == 2.0.0",
+    "mongomock == 3.15.0",
+    "mimesis == 3.1.0",
+]
 
 setup(
     name="cyhy_api",
