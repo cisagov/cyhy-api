@@ -24,7 +24,12 @@ def connect_from_config(config=None, default_alias=None):
     connections = config["connections"]
     if default_alias is not None:
         # only create the specified connection and map it to the "default" alias
-        connect(host=connections[default_alias]["uri"], alias="default")
+        try:
+            connect(host=connections[default_alias]["uri"], alias="default")
+        except KeyError:
+            raise KeyError(
+                f"Requested alias '{default_alias}' not found in connection configuration file."
+            )
     else:
         # create all connections
         for alias in connections.keys():
