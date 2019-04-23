@@ -23,6 +23,7 @@ def user():
     user.email = "lemmy@imotorhead.com"
     user.first_name = "Ian"
     user.last_name = "Kilmister"
+    user.phone = "800.333.7680"
     return user
 
 
