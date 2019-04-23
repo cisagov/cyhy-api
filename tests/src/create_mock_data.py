@@ -38,6 +38,7 @@ def generate_users(count=1024, locale="en"):
         user.last_name = person.surname()
         user.email = person.email()
         user.password = person.password()
+        user.phone = person.telephone(mask="###.###.####")
         user.save()
 
 

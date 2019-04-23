@@ -53,6 +53,7 @@ class UserModel(Document):
     first_name = StringField(required=True, help_text="The user's given name")
     last_name = StringField(required=True, help_text="The user's surname")
     email = EmailField(required=True, help_text="The user's email address")
+    phone = StringField(help_text="The user's telephone number")
     _password = PasswordField(
         required=True, db_field="password", help_text="The user's hashed password"
     )
