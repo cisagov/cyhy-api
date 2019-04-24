@@ -36,6 +36,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
       - ./tests/init/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    command: -v
 
   mongo-express:
     image: mongo-express
