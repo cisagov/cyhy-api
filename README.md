@@ -46,6 +46,9 @@ e.g.; `docker-compose -f docker-compose-debug.yml run test -vs`
 A `bash` shell can be invoked using:
 `docker-compose -f docker-compose-debug.yml run bash`
 
+Getting a shell to the development mongo server:
+`docker-compose -f docker-compose-dev.yml exec mongo mongo -u root -p example`
+
 ### Production
 
 A production version of the server can be deployed to a
