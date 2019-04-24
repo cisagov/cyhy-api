@@ -21,7 +21,7 @@ class AuthMutation(graphene.Mutation):
     result = graphene.Field(AuthUnion)
 
     def mutate(self, info, email, password, **kwargs):
-        user = UserModel.objects(email=email).first()
+        user = UserModel.find_user_by_email(email)
         if user is not None and user.password == password:
             access_token = create_access_token(identity=user.uid, fresh=True)
             refresh_token = create_refresh_token(identity=user.uid)
