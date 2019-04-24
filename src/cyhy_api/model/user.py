@@ -11,7 +11,7 @@ from mongoengine.fields import (
 from mongoengine.errors import DoesNotExist
 
 from .fields import PasswordField
-from ..util import HashedPassword
+from ..util import HashedPassword, valid_enough_email
 
 
 class RefreshToken(EmbeddedDocument):
@@ -92,7 +92,7 @@ class UserModel(Document):
     @classmethod
     def find_user_by_email(cls, search):
         """Verify a email, and return the associate user document."""
-        if "$" in search:  # TODO better sanitization
+        if not valid_enough_email(search):
             return None
         try:
             return cls.objects.get(email=search)
