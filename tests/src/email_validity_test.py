@@ -48,12 +48,12 @@ invalid_addresses = [
     12345,
     "local_part_is_len_65_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@foo.bar",
     "foo@domain_part_is_len_256_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.gov",
+    "no.arobase.in.this.address",
 ]
 
 # we cannot detect that these are invalid
 invalid_addresses_xfail = [
     # https://en.wikipedia.org/wiki/Email_address#Examples
-    "Abc.example.com",
     "A@b@c@example.com",
     r'a"b(c)d,e:f;g<h>i[j\k]l@example.com',
     'just"not"right@example.com',
