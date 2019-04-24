@@ -25,7 +25,9 @@ This will create:
 available at [http://localhost:5000/graphql](http://localhost:5000/graphql)
 - a [MongoDB](https://mongodb.com) server (no ports mapped to host)
 - a [Mongo Express](https://github.com/mongo-express/mongo-express) web client
-to view the database avaiable at [http://localhost:8081](http://localhost:8081)
+to view the database available at [http://localhost:8081](http://localhost:8081)
+- a [MailHog](https://github.com/mailhog/MailHog) mail server/client
+to view test email messages [http://localhost:8025](http://localhost:8025)
 
 A default user is created in the development database:
 

@@ -47,3 +47,9 @@ services:
       ME_CONFIG_MONGODB_SERVER: mongo
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
+
+  mail:
+    image: mailhog/mailhog
+    restart: always
+    ports:
+      - 8025:8025
