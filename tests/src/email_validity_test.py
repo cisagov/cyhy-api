@@ -69,23 +69,17 @@ invalid_addresses_xfail = [
 @pytest.mark.parametrize("address", valid_addresses)
 def test_valid(address):
     """Test with valid email addresses."""
-    assert (  # nosec
-        valid_enough_email(address) is True
-    ), "Valid address evaluated as invalid."
+    assert valid_enough_email(address) is True, "Valid address evaluated as invalid."
 
 
 @pytest.mark.parametrize("address", invalid_addresses)
 def test_invalid(address):
     """Test with invalid email addresses."""
-    assert (  # nosec
-        valid_enough_email(address) is False
-    ), "Invalid address evaluated as valid."
+    assert valid_enough_email(address) is False, "Invalid address evaluated as valid."
 
 
 @pytest.mark.xfail
 @pytest.mark.parametrize("address", invalid_addresses_xfail)
 def test_invalid_xfail(address):
     """Test with invalid email addresses that we can't handle yet."""
-    assert (  # nosec
-        valid_enough_email(address) is False
-    ), "Invalid address evaluated as valid."
+    assert valid_enough_email(address) is False, "Invalid address evaluated as valid."

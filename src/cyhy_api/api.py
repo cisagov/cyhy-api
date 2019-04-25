@@ -7,7 +7,7 @@ from flask import Flask, request
 from flask_jwt_extended import JWTManager, decode_token
 from flask_cors import CORS
 
-from .util import connect_from_config
+from .util import load_config, connect_from_config
 from .schema import Schema
 from .model import UserModel
 
@@ -20,17 +20,22 @@ def load_secret(filename="/run/secrets/flask.key"):
     return key
 
 
-def create_app():
+def create_app(config, secret_filename=None):
     """Create the Flask application."""
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = app.config["JWT_SECRET_KEY"] = load_secret()
-    app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=1)
-    if app.config["DEBUG"] is True:
-        app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(seconds=15)
-    else:
-        app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=60)
-    app.config["JWT_TOKEN_LOCATION"] = ("headers", "cookies")
-    app.config["GRAPHIQL"] = True
+    # copy configurations into the application
+    app.config["SECRET_KEY"] = app.config["JWT_SECRET_KEY"] = load_secret(
+        secret_filename
+    )
+    app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(
+        **config["tokens"]["refresh-expire"]
+    )
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(
+        **config["tokens"]["access-expire"]
+    )
+    app.config["JWT_TOKEN_LOCATION"] = config["tokens"]["location"]
+    app.config["GRAPHIQL"] = config["graphiql"]
+    app.config["CYHY_MAIL_SERVERS"] = config["mail-servers"]
     Schema(app)
     jwt = JWTManager(app)
     CORS(app)  # TODO define specific origin
@@ -58,15 +63,19 @@ def create_app():
                 )
         return None
 
+    if app.config["DEBUG"]:
+        app.logger.debug("application config\n" + pprint.pformat(app.config))
     return app
 
 
 def main():
     """Start the application."""
     # import IPython; IPython.embed()  # noqa: E702 <<< BREAKPOINT >>>
-    app = create_app()
-    connect_from_config()
-    app.run(host="0.0.0.0")
+    config = load_config()
+    secret_filename = config.get("secret-key-file")
+    app = create_app(config, secret_filename)
+    connect_from_config(config)
+    app.run(host=config["listen"]["interface"], port=config["listen"]["port"])
 
 
 if __name__ == "__main__":
