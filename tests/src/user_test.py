@@ -43,8 +43,8 @@ class TestUsers:
     def test_find_one_user(self):
         """Find one user."""
         user = UserModel.objects.get(email="lemmy@imotorhead.com")
-        assert user is not None, "User should not be None."  # nosec
-        assert user.email == "lemmy@imotorhead.com", "User has wrong email."  # nosec
+        assert user is not None, "User should not be None."
+        assert user.email == "lemmy@imotorhead.com", "User has wrong email."
 
     def test_set_password_with_wrong_type(self):
         """Pass a non-string as the password."""
@@ -56,26 +56,22 @@ class TestUsers:
         """Set user's password without save."""
         user = UserModel()
         user.password = "is_god"
-        assert isinstance(  # nosec
-            user.password, HashedPassword
-        ), "password should be hashed"
-        assert user.password == "is_god"  # nosec
+        assert isinstance(user.password, HashedPassword), "password should be hashed"
+        assert user.password == "is_god"
 
     def test_set_password_with_save(self):
         """Set user's password with save."""
         user = UserModel.objects.get(email="lemmy@imotorhead.com")
         user.password = "is_god"
         user.save()
-        assert isinstance(  # nosec
-            user.password, HashedPassword
-        ), "password should be hashed"
+        assert isinstance(user.password, HashedPassword), "password should be hashed"
 
-        assert user.password == "is_god"  # nosec
+        assert user.password == "is_god"
 
     def test_check_password(self):
         """Verify user's password."""
         user = UserModel.objects.get(email="lemmy@imotorhead.com")
-        assert user.password == "is_god"  # nosec
+        assert user.password == "is_god"
 
     def test_resave_password(self):
         """Verify user's password."""
