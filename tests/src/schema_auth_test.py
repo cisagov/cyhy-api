@@ -1,8 +1,10 @@
 #!/usr/bin/env pytest -vs
 """Tests for GraphQL authentication API."""
+from pprint import pprint
 
 import pytest
 from graphene.test import Client
+
 from cyhy_api.schema import schema
 from mongoengine import connect
 from cyhy_api.model import UserModel
@@ -38,7 +40,10 @@ class TestAuth:
         """Test user registration."""
         query = """
                 mutation {
-                  register(email: "bobbo@pekinggourmet.com", password: "foobar") {
+                  register(email: "bobbo@pekinggourmet.com",
+                           password: "foobar",
+                           firstName: "Bobbo",
+                           lastName: "Tsui") {
                     result {
                       isSuccess
                       message
@@ -48,9 +53,10 @@ class TestAuth:
                 """
         executed = client.execute(query)
         # the api says it worked
+        pprint(executed)
         assert (
             executed["data"]["register"]["result"]["isSuccess"] is True
-        ), "Expected success."
+        ), f"Expected success."
         # let's check the database and see if the user is really there
         user = UserModel.objects(email="bobbo@pekinggourmet.com").first()
         assert user is not None
