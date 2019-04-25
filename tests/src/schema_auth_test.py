@@ -7,6 +7,7 @@ from cyhy_api.schema import schema
 from mongoengine import connect
 from cyhy_api.model import UserModel
 from cyhy_api.api import create_app
+from cyhy_api.util import load_config
 
 
 @pytest.fixture(scope="class", autouse=True)
@@ -18,7 +19,9 @@ def connection():
 @pytest.fixture(scope="class", autouse=True)
 def context():
     """Create the Flask application for use with contexts."""
-    app = create_app()
+    config = load_config()
+    secret_filename = config.get("secret-key-file")
+    app = create_app(config, secret_filename)
     return app.app_context()
 
 

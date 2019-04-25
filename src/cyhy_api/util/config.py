@@ -21,7 +21,7 @@ def connect_from_config(config=None, default_alias=None):
     """
     if not config:
         config = load_config()
-    connections = config["connections"]
+    connections = config["databases"]
     if default_alias is not None:
         # only create the specified connection and map it to the "default" alias
         try:
