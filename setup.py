@@ -30,7 +30,7 @@ install_requires = [
     "graphene-mongo == 0.2.0",
     "mongoengine == 0.16.3",
     "python-dateutil == 2.7.5",
-    "PyYAML == 3.12",
+    "PyYAML == 5.1",
 ]
 
 extras_require = {
