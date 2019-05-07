@@ -17,7 +17,7 @@ x-templates:
     environment:
       FLASK_ENV: development
     volumes:
-      - ./src/cyhy_api:/usr/src/cyhy_api/cyhy_api
+      - ./src:/usr/src/src
       - ./tests/src:/home/cisa/tests
     ports:
       - "5000:5000"

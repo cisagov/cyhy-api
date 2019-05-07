@@ -24,8 +24,10 @@ RUN if [ -n "${INSTALL_IPYTHON}" ]; then pip install ipython; fi
 
 WORKDIR ${CISA_SRC}
 
-COPY src cyhy_api
-RUN pip install -e cyhy_api
+COPY src src
+COPY setup.py setup.py
+COPY README.md README.md
+RUN pip install -e .
 
 USER cisa
 WORKDIR ${CISA_HOME}
