@@ -26,10 +26,10 @@ install_requires = [
     "Flask-Bcrypt",  # compiled in Dockerfile
     "flask-cors == 3.0.7",
     "Flask-GraphQL == 2.0.0",
-    "Flask-JWT-Extended == 3.17.0",
-    "graphene-mongo == 0.2.0",
-    "mongoengine == 0.16.3",
-    "python-dateutil == 2.7.5",
+    "Flask-JWT-Extended == 3.18.1",
+    "graphene-mongo == 0.2.4",
+    "mongoengine == 0.17.0",
+    "python-dateutil == 2.8.0",
     "PyYAML == 5.1",
 ]
 
