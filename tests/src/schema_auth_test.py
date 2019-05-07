@@ -21,9 +21,12 @@ def connection():
 @pytest.fixture(scope="class", autouse=True)
 def context():
     """Create the Flask application for use with contexts."""
-    config = load_config()
-    secret_filename = config.get("secret-key-file")
-    app = create_app(config, secret_filename)
+    import os
+
+    print(os.getcwd())
+    config = load_config("tests/secrets/config-dev.yml")
+    # secret_filename = config.get("secret-key-file")
+    app = create_app(config, "tests/secrets/flask.key")
     return app.app_context()
 
 
