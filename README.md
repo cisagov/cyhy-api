@@ -1,5 +1,7 @@
 # Cyber Hygiene API 🎛🎚
 
+[![Build Status](https://travis-ci.com/cisagov/cyhy-api.svg?branch=develop)](https://travis-ci.com/cisagov/cyhy-api)
+[![Coverage Status](https://coveralls.io/repos/github/cisagov/cyhy-api/badge.svg?branch=develop)](https://coveralls.io/github/cisagov/cyhy-api?branch=develop)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/cisagov/cyhy-api.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/cyhy-api/alerts/)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/cisagov/cyhy-api.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/cyhy-api/context:python)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/cisagov/cyhy-api.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/cyhy-api/context:javascript)
