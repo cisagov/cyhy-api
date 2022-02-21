@@ -1,4 +1,4 @@
-FROM python:3.7-alpine
+FROM python:3.11.0a5-alpine
 MAINTAINER Mark Feldhousen <mark.feldhousen@trio.dhs.gov>
 
 ARG CISA_UID=421
