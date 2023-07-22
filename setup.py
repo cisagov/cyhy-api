@@ -24,7 +24,7 @@ install_requires = [
     "docopt == 0.6.2",
     "Flask == 1.0.2",
     "Flask-Bcrypt",  # compiled in Dockerfile
-    "flask-cors == 3.0.7",
+    "flask-cors == 3.0.9",
     "Flask-GraphQL == 2.0.0",
     "Flask-JWT-Extended == 3.18.1",
     "graphene-mongo == 0.2.4",
